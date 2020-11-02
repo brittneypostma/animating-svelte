@@ -2,6 +2,7 @@
 	import { fade, blur, slide, fly } from 'svelte/transition'
 	import { custom } from './custom'
 	import { alert } from './alert'
+	import Box from './Box.svelte'
 	import Modal from './Modal.svelte'
 	import Nav from './Nav.svelte'
 	import Toast from './Toast.svelte'
@@ -42,6 +43,7 @@
 	{/if}
 	<!-- Initial load animation -->
 	<h1 transition:fade={{ delay: 100, duration: 1000 }}>Hello {name}!</h1>
+	<Box />
 	<!-- <h1 transition:blur={{ delay: 100, duration: 1000, opacity: 1, amount: 20 }}> Hello {name}!</h1> -->
 
 	<!-- <h1 in:fly={{ y: 100 }} out:fade>Hello {name}!</h1> -->
