@@ -16,6 +16,10 @@
     transition: 0.3s ease opacity;
   } */
 
+  main {
+    padding: 1rem;
+  }
+
   h1 {
     color: rgb(14, 92, 102);
     text-transform: uppercase;
@@ -43,7 +47,7 @@
   <!-- Mounting and unmounting animation -->
   <!-- {#if isReady}{/if} -->
   {#if isNavOpen}
-    <Nav />
+    <Nav {toggleNav} />
   {/if}
   <!-- Initial load animation -->
   <h1 transition:fade={{ delay: 100, duration: 1000 }}>Hello {name}!</h1>
