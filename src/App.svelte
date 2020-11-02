@@ -1,38 +1,27 @@
 <script>
-  import { fade, blur, slide, fly } from 'svelte/transition'
-  import { custom } from './custom'
-  import Nav from './Nav.svelte'
-  export let name
-  let isReady = false
-  let isNavOpen = false
-  function toggleNav() {
-    isNavOpen = !isNavOpen
-  }
+	import { fade, blur, slide, fly } from 'svelte/transition'
+	import { custom } from './custom'
+	import { alert } from './alert'
+	import Modal from './Modal.svelte'
+	import Nav from './Nav.svelte'
+	import Toast from './Toast.svelte'
+	export let name
+	let isReady = false
+	let isNavOpen = false
+	let isModalOpen = false
+	function toggleNav() {
+		isNavOpen = !isNavOpen
+	}
+	export function toggleModal() {
+		isModalOpen = !isModalOpen
+	}
+	function toggleAlert() {
+		alert.set({
+			isActive: !$alert.isActive,
+			text: 'Our new alert'
+		})
+	}
 </script>
-
-<style>
-  /* .hidden {
-    opacity: 0;
-    transition: 0.3s ease opacity;
-  } */
-
-  main {
-    padding: 1rem;
-  }
-
-  h1 {
-    color: rgb(14, 92, 102);
-    text-transform: uppercase;
-    font-size: 4em;
-    font-weight: 100;
-  }
-
-  @media (min-width: 640px) {
-    main {
-      max-width: none;
-    }
-  }
-</style>
 
 <!-- Fade - opacity 0 -1 -->
 <!-- Blue - opacity and blur -->
@@ -42,21 +31,56 @@
 <!-- Draw - draw svgs -->
 
 <main>
-  <!-- <button on:click={() => (isReady = !isReady)}>Fade</button> -->
-  <button on:click={toggleNav}>Menu</button>
-  <!-- Mounting and unmounting animation -->
-  <!-- {#if isReady}{/if} -->
-  {#if isNavOpen}
-    <Nav {toggleNav} />
-  {/if}
-  <!-- Initial load animation -->
-  <h1 transition:fade={{ delay: 100, duration: 1000 }}>Hello {name}!</h1>
-  <!-- <h1 transition:blur={{ delay: 100, duration: 1000, opacity: 1, amount: 20 }}> Hello {name}!</h1> -->
+	<!-- <button on:click={() => (isReady = !isReady)}>Fade</button> -->
+	<button on:click={toggleNav}>Menu</button>
+	<button on:click={toggleAlert}>Alert</button>
+	<button on:click={toggleModal}>Modal</button>
+	<!-- Mounting and unmounting animation -->
+	<!-- {#if isReady}{/if} -->
+	{#if isNavOpen}
+		<Nav {toggleNav} />
+	{/if}
+	<!-- Initial load animation -->
+	<h1 transition:fade={{ delay: 100, duration: 1000 }}>Hello {name}!</h1>
+	<!-- <h1 transition:blur={{ delay: 100, duration: 1000, opacity: 1, amount: 20 }}> Hello {name}!</h1> -->
 
-  <!-- <h1 in:fly={{ y: 100 }} out:fade>Hello {name}!</h1> -->
-  <!-- <h1 transition:slide>Hello {name}!</h1> -->
-  <!-- <h1 transition:fly={{ y: 100 }}>Hello {name}!</h1> -->
-  <!-- css transition animation -->
-  <!-- <h1 class:hidden={!isReady}>Hello {name}!</h1> -->
-  <!-- <h1 transition:custom={{ delay: 100, duration: 1000 }}>Hello {name}!</h1> -->
+	<!-- <h1 in:fly={{ y: 100 }} out:fade>Hello {name}!</h1> -->
+	<!-- <h1 transition:slide>Hello {name}!</h1> -->
+	<!-- <h1 transition:fly={{ y: 100 }}>Hello {name}!</h1> -->
+	<!-- css transition animation -->
+	<!-- <h1 class:hidden={!isReady}>Hello {name}!</h1> -->
+	<!-- <h1 transition:custom={{ delay: 100, duration: 1000 }}>Hello {name}!</h1> -->
 </main>
+
+<Toast />
+
+{#if isModalOpen}
+	<Modal {toggleModal}>
+		<p>This is in the modal.</p>
+		<button>Do something!</button>
+	</Modal>
+{/if}
+
+<style>
+	/* .hidden {
+    opacity: 0;
+    transition: 0.3s ease opacity;
+  } */
+
+	main {
+		padding: 1rem;
+	}
+
+	h1 {
+		color: rgb(14, 92, 102);
+		text-transform: uppercase;
+		font-size: 4em;
+		font-weight: 100;
+	}
+
+	@media (min-width: 640px) {
+		main {
+			max-width: none;
+		}
+	}
+</style>
