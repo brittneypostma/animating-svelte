@@ -1,15 +1,24 @@
 <script>
+	import { onMount } from 'svelte'
 	import { fade, blur, slide, fly } from 'svelte/transition'
-	import { custom } from './custom'
 	import { alert } from './alert'
+	import { custom } from './custom'
+
 	import Box from './Box.svelte'
+	import Card from './Card.svelte'
+	import Cross from './Cross.svelte'
 	import Modal from './Modal.svelte'
 	import Nav from './Nav.svelte'
 	import Toast from './Toast.svelte'
+
 	export let name
+
 	let isReady = false
 	let isNavOpen = false
 	let isModalOpen = false
+	let isCardActive = false
+	let y
+
 	function toggleNav() {
 		isNavOpen = !isNavOpen
 	}
@@ -22,7 +31,32 @@
 			text: 'Our new alert'
 		})
 	}
+
+	// onMount(() => {
+	// 	// registers scroll events
+	// 	addScrollEvent()
+	// })
+
+	// function addScrollEvent() {
+	// 	window.addEventListener("scroll", onScroll, { passive: true})
+	// }
+
+	// function onScroll() {
+	// 	console.log(window.pageYOffset)
+	// 	const scrollPosition = window.pageYOffset
+
+	// 	if (scrollPosition > 150) {
+	// 		isCardActive = true
+	// 	}
+	// }
+
+	// reactive scroll event attached to window with bind:
+	$: if (y > 100) {
+		isCardActive = true
+	}
 </script>
+
+<svelte:window bind:scrollY={y} />
 
 <!-- Fade - opacity 0 -1 -->
 <!-- Blue - opacity and blur -->
@@ -33,9 +67,11 @@
 
 <main>
 	<!-- <button on:click={() => (isReady = !isReady)}>Fade</button> -->
-	<button on:click={toggleNav}>Menu</button>
-	<button on:click={toggleAlert}>Alert</button>
-	<button on:click={toggleModal}>Modal</button>
+	<div class="buttons">
+		<button on:click={toggleNav}>Menu</button>
+		<button on:click={toggleAlert}>Alert</button>
+		<button on:click={toggleModal}>Modal</button>
+</div>
 	<!-- Mounting and unmounting animation -->
 	<!-- {#if isReady}{/if} -->
 	{#if isNavOpen}
@@ -43,7 +79,19 @@
 	{/if}
 	<!-- Initial load animation -->
 	<h1 transition:fade={{ delay: 100, duration: 1000 }}>Hello {name}!</h1>
+
+	<Cross />
+
 	<Box />
+
+	<div class="cards">
+		<Card />
+		<Card />
+		<Card />
+		{#if isCardActive}
+			<Card />
+		{/if}
+	</div>
 	<!-- <h1 transition:blur={{ delay: 100, duration: 1000, opacity: 1, amount: 20 }}> Hello {name}!</h1> -->
 
 	<!-- <h1 in:fly={{ y: 100 }} out:fade>Hello {name}!</h1> -->
@@ -70,7 +118,12 @@
   } */
 
 	main {
+		margin: 0 auto;
 		padding: 1rem;
+		display: grid;
+		justify-content: center;
+		gap: 2.5rem;
+		max-width: 1440px;
 	}
 
 	h1 {
@@ -80,9 +133,10 @@
 		font-weight: 100;
 	}
 
-	@media (min-width: 640px) {
-		main {
-			max-width: none;
-		}
+	.cards {
+		display: grid;
+		gap: 1rem;
+		grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
 	}
+
 </style>

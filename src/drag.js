@@ -50,7 +50,16 @@ export function drag(node, params) {
       }
     })
   }
-  function handleMouseUp(e) {
+  function handleMouseUp() {
+    // fire up event
+    node.dispatchEvent(
+      new CustomEvent("dragStop", {
+        detail: {
+          x,
+          y
+        }
+      })
+    )
     // reset values
     // remove event listeners
     x = 0
@@ -61,8 +70,8 @@ export function drag(node, params) {
         y: 0
       }
     })
-    window.removeEventListener("mousemove", console.log("mousemove"))
-    window.removeEventListener("mouseup", console.log("mouseup"))
+    window.removeEventListener("mousemove", handleMouseMove)
+    window.removeEventListener("mouseup", handleMouseUp)
   }
   return {
     destroy() {
