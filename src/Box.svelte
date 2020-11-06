@@ -35,10 +35,4 @@
     display: grid;
     gap: 1rem;
   }
-  .box {
-    background: var(--blue);
-    box-shadow: var(--shadow-md);
-    width: 100px;
-    height: 100px;
-  }
 </style>

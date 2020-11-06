@@ -1,6 +1,9 @@
 <script>
 	import { onMount } from 'svelte'
 	import { fade, blur, slide, fly } from 'svelte/transition'
+	// import {bounceOut} from 'svelte/easing'
+	import {quintInOut} from 'svelte/easing'
+
 	import { alert } from './alert'
 	import { custom } from './custom'
 
@@ -18,6 +21,7 @@
 	let isModalOpen = false
 	let isCardActive = false
 	let y
+	let cubes = [...Array(10).keys()]
 
 	function toggleNav() {
 		isNavOpen = !isNavOpen
@@ -71,7 +75,7 @@
 		<button on:click={toggleNav}>Menu</button>
 		<button on:click={toggleAlert}>Alert</button>
 		<button on:click={toggleModal}>Modal</button>
-</div>
+	</div>
 	<!-- Mounting and unmounting animation -->
 	<!-- {#if isReady}{/if} -->
 	{#if isNavOpen}
@@ -79,6 +83,20 @@
 	{/if}
 	<!-- Initial load animation -->
 	<h1 transition:fade={{ delay: 100, duration: 1000 }}>Hello {name}!</h1>
+	
+	<div class="grid">
+		{#each cubes as cube, i}
+			<div 
+			class="box" 
+			transition:fly={{
+				duration:1000, 
+				delay: i * 100,
+				easing: quintInOut,
+				y: 80
+			}} 
+			/>
+		{/each}
+	</div>
 
 	<Cross />
 
@@ -139,4 +157,9 @@
 		grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
 	}
 
+	.grid {
+		--gridCols: 1;
+		grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+		justify-items: center;
+	}
 </style>

@@ -325,7 +325,7 @@ li {
 	display: grid;
 	grid-template-columns: repeat(var(--gridCols), 1fr);
 	justify-content: var(--justifyContent);
-	gap: 20px;
+	gap: 1rem;
 }
 
 .grid-center {
@@ -358,6 +358,13 @@ li {
 	border-radius: var(--size);
 	top: calc(var(--size) / 2 * -1);
 	right: 10px;
+}
+
+.box {
+	background: var(--blue);
+	box-shadow: var(--shadow-md);
+	width: 100px;
+	height: 100px;
 }
 
 /*! Media Queries */
